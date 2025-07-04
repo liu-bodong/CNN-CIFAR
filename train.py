@@ -54,20 +54,9 @@ if __name__ == "__main__":
     batch_size = 256
     num_workers = 4
     train_loader, test_loader = dataloader.load_data(1, num_workers)
-    model = model.CNN()
+    model = model.CNN_Small()
     
-    # print(model)
-    
-    # print("net has {} parametres in total".format(
-    #     sum(p.numel() for p in model.parameters() if p.requires_grad)))
-
-    # for x, y in train_loader:
-    #     model(x)
-    #     break
-    
-    
-    
-    parameters = train(model=model, train_loader=train_loader, epochs=10, device=device, debug=True)
+    parameters = train(model=model, train_loader=train_loader, epochs=20, device=device, debug=True)
     
     torch.save(model.state_dict(), 'cifar.pth')
     
