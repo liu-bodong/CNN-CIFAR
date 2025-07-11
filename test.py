@@ -14,7 +14,10 @@ def evaluate_accuracy(model, data_iter, device):
     acc_preds, total_preds = 0, 0
     with torch.no_grad():
         for X, y in data_iter:
-            X = X.to(device)
+            if isinstance(X, list):
+                X = [x.to(device) for x in X]
+            else:
+                X = X.to(device)
             y = y.to(device)
             acc_preds += accuracy(model(X), y)
             total_preds += y.numel()
@@ -22,8 +25,9 @@ def evaluate_accuracy(model, data_iter, device):
 
 if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Using device:", device)
 
-    params = torch.load("cifar.pth")
+    params = torch.load(".pth")
     params.eval()
     
     batch_size = 256
