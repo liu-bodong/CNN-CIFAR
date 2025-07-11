@@ -30,11 +30,9 @@ def train(model, train_loader, epochs, device, save=False, debug=False):
             
             if debug:
                 with torch.no_grad():
-                    loss = loss.float()
-                    train_loss += loss
+                    train_loss += loss.float()
                     train_acc += test.accuracy(y_pred, y)
                     num_samples += y.numel()
-                    #
                 
         if debug and epoch % 1 == 0:
             train_loss /= num_samples
@@ -42,7 +40,6 @@ def train(model, train_loader, epochs, device, save=False, debug=False):
             print(f'Epoch {epoch}, '
                   f'train loss {train_loss:.3f}, '
                   f'train acc {train_acc:.3f}')
-        
     return model
 
 
@@ -53,8 +50,8 @@ if __name__ == "__main__":
     
     batch_size = 256
     num_workers = 4
-    train_loader, test_loader = dataloader.load_data(1, num_workers)
-    model = model.CNN_Small()
+    train_loader, test_loader = dataloader.load_data(download=False, batch_size=batch_size, num_workers=num_workers)
+    model = model.ResNet()
     
     parameters = train(model=model, train_loader=train_loader, epochs=20, device=device, debug=True)
     
