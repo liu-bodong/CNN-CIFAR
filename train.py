@@ -5,12 +5,16 @@ import torch.optim as optim
 import models
 import dataloader
 import test
+import utils
 
 def train(model, train_loader, epochs, device, save=False, debug=False):
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters())
+    model.apply(utils.init_weights)
     model.to(device)
     model.train()
+    
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters())
+    
     for epoch in range(epochs):
         train_loss = 0
         train_acc = 0
@@ -43,6 +47,7 @@ def train(model, train_loader, epochs, device, save=False, debug=False):
             print(f'Epoch {epoch}, '
                   f'train loss {train_loss:.3f}, '
                   f'train acc {train_acc:.3f}')
+            
     return model
 
 
